@@ -146,9 +146,14 @@ def adzuna(cfg):
     for k in ("what", "what_or", "what_phrase", "where", "distance"):
         if cfg.get(k):
             params[k] = cfg[k]
-    data = _get(f"https://api.adzuna.com/v1/api/jobs/{cfg.get('country', 'gb')}/search/1", **params).json()
+    results = []
+    for page in range(1, cfg.get("pages", 1) + 1):
+        data = _get(f"https://api.adzuna.com/v1/api/jobs/{cfg.get('country', 'gb')}/search/{page}", **params).json()
+        results += data.get("results", [])
+        if len(data.get("results", [])) < params["results_per_page"]:
+            break
     jobs = []
-    for j in data.get("results", []):
+    for j in results:
         salary = ""
         if j.get("salary_min"):
             salary = f" · £{int(j['salary_min']):,}" + (f"–{int(j['salary_max']):,}" if j.get("salary_max") else "")

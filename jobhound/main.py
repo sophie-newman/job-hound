@@ -64,8 +64,16 @@ def profile_text(cfg):
     if cfg.get("cv_file"):
         cv = ROOT / cfg["cv_file"]
         if cv.exists():
-            text += "\n\nCV:\n" + cv.read_text()[:20000]
+            text += "\n\nCV:\n" + read_cv(cv)[:20000]
     return text
+
+
+def read_cv(path):
+    """Plain text/markdown as-is; PDFs via pypdf (only needed if the CV is a PDF)."""
+    if path.suffix.lower() != ".pdf":
+        return path.read_text()
+    from pypdf import PdfReader
+    return "\n".join(page.extract_text() or "" for page in PdfReader(path).pages)
 
 
 def run(args):

@@ -7,6 +7,7 @@ Sources: INSPIRE-HEP (academic physics/astro), Remotive, Arbeitnow, HN "Who is h
 Adzuna (optional, free key), and any RSS/Atom feed.
 
 ## Setup
+0. `python3 -m venv .venv && .venv/bin/pip install anthropic pyyaml requests pypdf`
 1. `cp .env.example .env && chmod 600 .env`, then fill in `ANTHROPIC_API_KEY` and `SMTP_PASSWORD`
    (a Gmail App Password from https://myaccount.google.com/apppasswords).
 2. Edit `profile:` (and optionally `cv_file:`) plus the searches in `config.yaml`.
@@ -16,10 +17,9 @@ Adzuna (optional, free key), and any RSS/Atom feed.
 ## Schedule (cron)
 `crontab -e` and add, e.g. daily at 07:30:
 
-    30 7 * * * /cosma7/data/dp004/dc-newm1/job-hound/run.sh
+    30 7 * * * /home/sophienewman/Desktop/code/job-hound/run.sh
 
-or weekly on Mondays: `30 7 * * 1 ...`. Note: on COSMA, crontabs live on the specific
-login node you created them on.
+or weekly on Mondays: `30 7 * * 1 ...`.
 
 ## Flags
 `--dry-run` (no email, no state change), `--no-ai` (keyword scoring only), `-v` (debug logs).

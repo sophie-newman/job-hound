@@ -6,11 +6,15 @@ profile: |
   PhD in astrophysics,
   (Python, HPC on large clusters, ML for SBI).
   Open to: 
-  (1) data science / application of ML / research engineer roles in industry
+  (1) data science / application of ML / research engineer / research scientist roles in industry
+  (2) research-facing roles that use a PhD, e.g. academic engagement / research partnerships /
+      scientific advisor roles (in industry, government, funders or universities - but not postdocs)
+  Seniority: early-career, first role after the PhD - junior, graduate, entry-level or mid-level.
+  Senior, lead, principal, staff, manager or head-of roles are NOT a fit.
   Location: based in London or Southampton, ideally hybrid (some days a week working from home); fully on-site is less attractive, fully remote is not needed
   Not interested in: sales, internships, PhD studentships, pure front-end web and AI dev.
 
-cv_file: ""          # optional, e.g. cv.md (plain text/markdown) - Claude reads it too
+cv_file: "cv.pdf"          # optional: .md/.txt or .pdf (PDF needs pypdf) - Claude reads it too
 
 ai:
   enabled: true      # false = keyword scoring only
@@ -56,7 +60,7 @@ searches:
   #   exclude: [phd studentship, phd position, phd student]
 
   - name: Data science / ML
-    notes: industry data science, applied ML and research engineer roles; based in London or Southampton
+    notes: early-career data science, applied ML, research scientist/engineer and academic engagement roles; based in London or Southampton
     max_results: 15
     locations: [London, Southampton]
     sources:
@@ -70,11 +74,18 @@ searches:
       - {type: adzuna, country: gb, what_phrase: research engineer, where: London, max_days_old: 7}
       - {type: adzuna, country: gb, what_phrase: data scientist, where: Southampton, max_days_old: 7}
       - {type: adzuna, country: gb, what_phrase: machine learning, where: Southampton, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: research scientist, where: London, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: research scientist, where: Southampton, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: research engineer, where: Southampton, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: academic engagement, where: London, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: academic engagement, where: Southampton, max_days_old: 7}
     include: [data scientist, data science, machine learning, ml engineer, deep learning,
               research scientist, research engineer, applied scientist,
-              statistician, quantitative]
+              statistician, quantitative, academic engagement, research engagement,
+              research partnerships, academic partnerships, academic relations, scientific advisor]
     exclude_titles: [intern, internship, sales, marketing, recruiter, director, vp,
-                     frontend, front-end, phd studentship]
+                     frontend, front-end, phd studentship,
+                     senior, sr, lead, principal, staff, head, manager, chief]
 
   # Disabled: profile targets DS/ML/research-engineer roles only. Uncomment to re-enable.
   # - name: Software engineering
