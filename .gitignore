@@ -1,0 +1,8 @@
+.env
+.venv/
+seen.json
+seen.tmp
+logs/
+last_digest.html
+cv.md
+__pycache__/

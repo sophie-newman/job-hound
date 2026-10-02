@@ -1,0 +1,91 @@
+# job-hound configuration. Secrets live in .env (see .env.example), not here.
+
+# Who you are and what you want. Claude reads this to score every vacancy, so
+# be specific: field, seniority, must-haves, deal-breakers, locations, visa, salary.
+profile: |
+  PhD in astrophysics,
+  (Python, HPC on large clusters, ML for SBI).
+  Open to: 
+  (1) data science / application of ML / research engineer roles in industry
+  Location: based in London or Southampton, ideally hybrid (some days a week working from home); fully on-site is less attractive, fully remote is not needed
+  Not interested in: sales, internships, PhD studentships, pure front-end web and AI dev.
+
+cv_file: ""          # optional, e.g. cv.md (plain text/markdown) - Claude reads it too
+
+ai:
+  enabled: true      # false = keyword scoring only
+  backend: claude_cli  # claude_cli = your Claude Pro/Max plan via `claude -p` (no extra cost)
+                       # api = Anthropic API, needs ANTHROPIC_API_KEY in .env, billed per token
+  model: "sonnet"          # "" = your Claude Code default; e.g. sonnet / haiku use less of your plan
+  effort: medium     # low | medium | high - higher = more careful, more expensive
+  max_candidates: 120  # per search, after the keyword pre-filter (caps API cost)
+
+min_score: 6         # default threshold (0-10) for a job to make the email
+
+email:
+  to: sophie.newman@port.ac.uk
+  from: sophie.newman@port.ac.uk
+  method: smtp       # smtp (Gmail App Password in .env) | sendmail (this machine's MTA)
+  smtp_host: smtp.gmail.com
+  smtp_port: 465
+  send_when_empty: false
+
+state_file: seen.json
+
+# Each search has its own sources and keyword pre-filter, and becomes a section
+# in the email. `include`: job must mention at least one term (empty = keep all).
+# `exclude`: drop if mentioned anywhere. `exclude_titles`: drop if in the title.
+# `locations`: job location must mention one of these (empty = anywhere).
+searches:
+  # Disabled: profile no longer targets academic roles. Uncomment to re-enable.
+  # - name: Academic / research
+  #   notes: academic postdoc, fellowship or research-staff roles
+  #   min_score: 6
+  #   max_results: 20
+  #   sources:
+  #     - type: inspire
+  #       query: "astrophysics OR cosmology OR astronomy OR simulation"
+  #       max: 100
+  #     # Any RSS/Atom feed works, e.g. a university vacancies feed or a saved-search feed:
+  #     # - type: rss
+  #     #   name: Durham University
+  #     #   url: https://example.ac.uk/vacancies.rss
+  #   include: [astro, astrophysics, cosmology, galaxy, galaxies, astronomy, simulation,
+  #             simulations, dark matter, numerical, computational, hpc, postdoc,
+  #             postdoctoral, fellowship, research associate, research fellow]
+  #   exclude: [phd studentship, phd position, phd student]
+
+  - name: Data science / ML
+    notes: industry data science, applied ML and research engineer roles; based in London or Southampton
+    max_results: 15
+    locations: [London, Southampton]
+    sources:
+      # Remotive removed: remote-only, so its locations never say London/Southampton.
+      - type: arbeitnow
+        pages: 3
+      # Adzuna (UK aggregator): free keys from https://developer.adzuna.com, set
+      # ADZUNA_APP_ID/ADZUNA_APP_KEY in .env. One query per phrase x place (50 newest each).
+      - {type: adzuna, country: gb, what_phrase: data scientist, where: London, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: machine learning, where: London, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: research engineer, where: London, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: data scientist, where: Southampton, max_days_old: 7}
+      - {type: adzuna, country: gb, what_phrase: machine learning, where: Southampton, max_days_old: 7}
+    include: [data scientist, data science, machine learning, ml engineer, deep learning,
+              research scientist, research engineer, applied scientist,
+              statistician, quantitative]
+    exclude_titles: [intern, internship, sales, marketing, recruiter, director, vp,
+                     frontend, front-end, phd studentship]
+
+  # Disabled: profile targets DS/ML/research-engineer roles only. Uncomment to re-enable.
+  # - name: Software engineering
+  #   notes: scientific / backend / HPC software engineering roles
+  #   max_results: 15
+  #   sources:
+  #     - type: remotive
+  #       category: software-dev
+  #     - type: arbeitnow
+  #       pages: 3
+  #     - type: hn_hiring
+  #   include: [python, c++, hpc, scientific computing, numerical, research software,
+  #             backend, high performance, simulation, rust]
+  #   exclude_titles: [intern, internship, frontend, front-end, sales, recruiter, director]
