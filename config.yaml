@@ -24,7 +24,7 @@ ai:
   effort: medium     # low | medium | high - higher = more careful, more expensive
   max_candidates: 120  # per search, after the keyword pre-filter (caps API cost)
 
-min_score: 6         # default threshold (0-10) for a job to make the email
+min_score: 5         # default threshold (0-10) for a job to make the email
 
 email:
   to: sophie.newman@port.ac.uk
@@ -61,7 +61,6 @@ searches:
 
   - name: Data science / ML
     notes: early-career data science, applied ML, research scientist/engineer and academic engagement roles; based in London or Southampton
-    max_results: 15
     locations: [London, Southampton]
     sources:
       # Remotive removed: remote-only, so its locations never say London/Southampton.

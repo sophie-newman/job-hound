@@ -114,7 +114,7 @@ def run(args):
 
         min_score = search.get("min_score", cfg.get("min_score", 6 if use_ai else 4))
         picks = sorted((j for j in cands if j.score >= min_score), key=lambda j: j.score, reverse=True)
-        sections.append((name, picks[: search.get("max_results", 25)]))
+        sections.append((name, picks[: search.get("max_results")]))
         # Everything fetched counts as seen, so rejected jobs aren't re-scored tomorrow.
         newly_seen.update({j.id: today for j in fresh})
 
